@@ -1,0 +1,273 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+  <meta charset="utf-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>task1 completed</title>  
+    <script>  
+       function fun(b)  
+        {  
+            document.getElementById("display").value+=b;  
+        }  
+        function C()  
+        {  
+            document.getElementById("display").value="";  
+        }  
+         function B()  
+        {  
+            var a = document.getElementById("display").value;  
+            document.getElementById("display").value=a.slice(0, a.length-1);  
+        }  
+        function res()  
+        {  
+            var a = document.getElementById("display").value;  
+            aa = a.trim();  
+            document.getElementById("display").value=fun1(a);  
+       }  
+       function fun1(a)  
+        {  
+            var i=0;  
+            const values = [];  
+            const operators = [];  
+            var opc=0, clc=0;  
+            for(i=0;i<a.length;i++)  
+                {  
+                    if(a[i]=="(")  
+                        {  
+                            opc+=1;  
+                        }  
+                    if(a[i]==")")  
+                        {  
+                            clc+=1;  
+                        }  
+                }  
+            if(opc!=clc)  
+                {  
+                    return "Invalid paranthesis";  
+                }  
+            if(opc>0)  
+                {  
+                   var op = a.indexOf("(");  
+                   var cl = a.lastIndexOf(")");  
+                   var x = a.slice(0, op);  
+                   var y = fun1(a.slice(op+1, cl));  
+                   var z = a.slice(cl+1, a.length);  
+                   var b = x + y + z;  
+                   return fun1(b);  
+                }  
+            if(opc==0)  
+            {  
+                for(var i = 0;i<a.length;i++)  
+                    {  
+                        if(i==0 && (a[0]=="+" || a[0]=="-"))  
+                            {  
+                                values.push(0);  
+                            }  
+                        if((a[i]=="+" || a[i]=="-"|| a[i]=="*" || a[i]=="/") && (a[i+1]=="*" || a[i+1]=="/" || a[i+1]=="+"))  
+                            {  
+                                return "Invalid statement";  
+                            }  
+                        if(a[i]=="+" || a[i]=="-" || a[i]=="*" || a[i]=="/")  
+                        {  
+                              
+                            if(operators.length==0 || (precedence(operators[operators.length-1])<precedence(a[i])))  
+                            {  
+                                operators.push(a[i]);  
+                            }  
+                            else if(precedence(operators[operators.length-1])>=precedence(a[i]))  
+                            {  
+                                 var f, s;  
+                                 f = parseFloat(values.pop());  
+                                 s = parseFloat(values.pop());  
+                                 if(operators[operators.length-1]=="+")  
+                                     {  
+                                         values.push(s+f);  
+                                     }  
+                                if(operators[operators.length-1]=="-")  
+                                     {  
+                                         values.push(s-f);  
+                                     }  
+                                if(operators[operators.length-1]=="*")  
+                                     {  
+                                         values.push(s*f);  
+                                     }  
+                                if(operators[operators.length-1]=="/")  
+                                     {  
+                                         values.push(s/f);  
+                                     }  
+                                operators.pop();  
+                                operators.push(a[i]);  
+                            }  
+                        }  
+                       if((a[i]=="+" || a[i]=="-"|| a[i]=="*" || a[i]=="/") && (a[i+1]=="-"))  
+                            {  
+                                var ch="";  
+                                var j;  
+                                for(j=i+1;j<a.length;j++)  
+                                {  
+                                    if(a[j+1]=="+" || a[j+1]=="-" || a[j+1]=="*" || a[j+1]=="/")  
+                                    {  
+                                        ch+=a[j];  
+                                        break;  
+                                    }  
+                                    ch+=a[j];  
+                                }     
+                                values.push(parseFloat(ch));  
+                                i+=ch.length;  
+                            }  
+                        else if(a[i]!="+" && a[i]!="-"&& a[i]!="*" && a[i]!="/")  
+                        {  
+                            var ch="";  
+                            var j;  
+                            for(j=i;j<a.length;j++)  
+                            {  
+                                if(a[j+1]=="+" || a[j+1]=="-" || a[j+1]=="*" || a[j+1]=="/")  
+                                {  
+                                    ch+=a[j];  
+                                    break;  
+                                }  
+                                ch+=a[j];  
+                            }     
+                            values.push(parseFloat(ch));  
+                            i+=ch.length-1;  
+                        }  
+                    }  
+                }  
+                while(operators.length!=0)  
+                {  
+                                 var f, s;  
+                                 f = parseFloat(values.pop());  
+                                 s = parseFloat(values.pop());  
+                                 if(operators[operators.length-1]=="+")  
+                                     {  
+                                         values.push(s+f);  
+                                     }  
+                                if(operators[operators.length-1]=="-")  
+                                     {  
+                                         values.push(s-f);  
+                                     }  
+                                if(operators[operators.length-1]=="*")  
+                                     {  
+                                         values.push(s*f);  
+                                     }  
+                                if(operators[operators.length-1]=="/")  
+                                     {  
+                                         values.push(s/f);  
+                                     }  
+                                operators.pop();  
+                }  
+            return values;  
+        }  
+        function precedence(a)  
+        {  
+            if(a=="+")  
+                {  
+                    return 1;  
+                }  
+            if(a=="-")  
+                {  
+                    return 2;  
+                }  
+            if(a=="*")  
+                {  
+                    return 3;  
+                }  
+            if(a=="/")  
+                {  
+                    return 4;  
+                }  
+        }  
+    </script>    
+    <style>  
+        table {  
+            background-color: brown;  
+            border: 1px solid black;  
+            table-layout: fixed;  
+            border: 1px solid black;  
+            border-spacing: 10px;  
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);  
+            border-radius: 10px;  
+        }  
+        button{  
+            padding: 16px;  
+            border-radius: 8px;  
+        }  
+        button:hover{  
+            background-color: black;  
+            color: white;   
+              
+        }  
+        button:active{  
+            transform: scale(0.98);  
+            box-shadow:3px 2px 22px 1px rgba(0, 0, 0, 0.24);  
+        }  
+        #display{  
+            width:290px;  
+            height:40px;  
+            margin: 10px 0;  
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);  
+            border-radius: 10px;  
+        }  
+        #display:hover{  
+            background-color: black;  
+            color: white;  
+        }  
+        body{  
+            background-color: black;  
+        }  
+        h1{  
+            color: white;  
+        }  
+        body:hover{  
+            background-color: floralwhite;  
+        }  
+         body:hover h1{  
+            color: black;  
+        }  
+    #footer{  
+          position: fixed;  
+          padding: 7px 7px 7px 7px;  
+          bottom: 0;  
+          width: 100%;  
+          height: 20px;  
+          background: grey;  
+      }  
+    </style>  
+</head>  
+<body>  
+    <center>  
+   <h1>HELLO </h1><h1 style="color:blue";>MANIKANDAN</h1><h1>HERE IS THE CALCULATOR FOR YOU</h1>  
+   <table>  
+       <tr><input id = "display"></tr>  
+       <tr><td> <button onclick = fun(0)>0</button></td>  
+           <td> <button onclick = fun("(")>(</button></td>  
+           <td> <button onclick = fun(")")>)</button></td>  
+           <td></td>  
+           <td> <button onclick = C()>C</button></td>  
+           <td> <button onclick = B()>B</button></td>  
+       </tr>  
+       <tr><td> <button onclick = fun(7)>7</button></td>  
+           <td> <button onclick = fun(8)>8</button></td>  
+           <td> <button onclick = fun(9)>9</button></td>  
+           <td></td>  
+           <td> <button onclick = fun("+")>+</button></td>  
+           <td> <button onclick = fun("-")>-</button></td>  
+       </tr>  
+       <tr><td> <button onclick = fun(6)>6</button></td>  
+           <td> <button onclick = fun(5)>5</button></td>  
+           <td> <button onclick = fun(4)>4</button></td>  
+           <td></td>  
+           <td><button onclick = fun("*")>*</button></td>  
+            <td><button onclick = fun("/")>/</button></td>  
+       </tr>  
+       <tr><td> <button onclick = fun(1)>1</button></td>  
+           <td> <button onclick = fun(2)>2</button></td>  
+           <td> <button onclick = fun(3)>3</button></td>  
+           <td></td>  
+           <td> <button onclick = fun(".")>.</button></td>  
+           <td> <button onclick = res()>=</button></td>  
+       </tr>  
+    </table>  
+<div id = "footer">By: Naresh Janarthanan, Chennai</div></center>  
+</body>  
+</html>  
